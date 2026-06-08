@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ─── 用户 & 认证 ───
 model User {
   id                String   @id @default(cuid())
   name              String?
@@ -20,11 +21,13 @@ model User {
   totalStudyMinutes Int      @default(0)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-  accounts          Account[]
-  sessions          Session[]
+
+  accounts           Account[]
+  sessions           Session[]
   vocabularyProgress UserVocabularyProgress[]
-  submissions       UserSubmission[]
-  mockTests         MockTest[]
+  grammarProgress    UserGrammarProgress[]
+  submissions        UserSubmission[]
+  mockTests          MockTest[]
 }
 
 model Account {
@@ -52,79 +55,137 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// ─── 词汇核心 ───
 model VocabularyWord {
-  id           String @id @default(cuid())
-  word         String
-  phonetic     String?
-  definition   String
-  examples     String?
-  collocations String?
-  synonyms     String?
-  topic        String
-  difficulty   String
+  id              String  @id @default(cuid())
+  word            String
+  phonetic        String?
+  partOfSpeech    String  @default("noun")  // noun/verb/adjective/adverb/preposition/conjunction/pronoun/article
+  definition      String
+  definitionCn    String?
+  exampleSentence String?
+  root            String?  // 词根
+  prefix          String?  // 前缀
+  suffix          String?  // 后缀
+  collocations    String?  // JSON: ["collocation1","collocation2"]
+  synonyms        String?  // JSON: ["syn1","syn2"]
+  antonyms        String?  // JSON: ["ant1","ant2"]
+  topic           String   @default("general")  // education/environment/technology/health/society...
+  level           String   @default("core")      // foundation/core/advanced
+  wordFamily      String?  // 词族标识，如 "success"
+  createdAt       DateTime @default(now())
+
   progress UserVocabularyProgress[]
 }
 
+model VocabularyTopic {
+  id          String @id @default(cuid())
+  name        String @unique
+  nameCn      String
+  description String?
+  sortOrder   Int    @default(0)
+  icon        String?
+  wordCount   Int    @default(0)
+}
+
 model UserVocabularyProgress {
-  id                String   @id @default(cuid())
-  userId            String
-  wordId            String
-  ease              Float    @default(2.5)
-  interval          Int      @default(0)
-  repetitions       Int      @default(0)
-  nextReviewAt      DateTime @default(now())
-  consecutiveCorrect Int     @default(0)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                 String   @id @default(cuid())
+  userId             String
+  wordId             String
+  ease               Float    @default(2.5)    // SM-2 简易度因子
+  interval           Int      @default(0)      // 间隔天数
+  repetitions        Int      @default(0)      // 复习次数
+  nextReviewAt       DateTime @default(now())
+  consecutiveCorrect Int      @default(0)
+  lastReviewAt       DateTime?
+  createdAt          DateTime @default(now())
+
+  user User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   word VocabularyWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
   @@unique([userId, wordId])
 }
 
-model GrammarPoint {
+// ─── 语法体系 ───
+model GrammarCategory {
   id          String @id @default(cuid())
-  name        String
-  category    String
-  explanation String
-  examples    String?
+  name        String @unique
+  nameCn      String
+  description String?
+  sortOrder   Int    @default(0)
+  icon        String?
+  points      GrammarPoint[]
 }
 
+model GrammarPoint {
+  id            String @id @default(cuid())
+  categoryId    String
+  name          String
+  nameCn        String
+  explanation   String   // Markdown
+  examples      String?  // JSON: [{sentence, analysis}]
+  commonErrors  String?  // JSON: [{error, correction, note}]
+  ieltsUsage    String?  // 在 IELTS 中的应用场景
+  sortOrder     Int      @default(0)
+  level         String   @default("core")  // foundation/core/advanced
+
+  category  GrammarCategory       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  progress  UserGrammarProgress[]
+}
+
+model UserGrammarProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  grammarId   String
+  isCompleted Boolean  @default(false)
+  score       Float?         // 练习得分百分比
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grammar GrammarPoint  @relation(fields: [grammarId], references: [id], onDelete: Cascade)
+  @@unique([userId, grammarId])
+}
+
+// ─── 题库 ───
 model Question {
-  id          String  @id @default(cuid())
-  type        String
-  section     Int?
-  passage     String?
+  id           String  @id @default(cuid())
+  type         String  // listening/reading/grammar
+  section      Int?
+  passage      String?
   questionText String
-  options     String?
-  answer      String
-  explanation String?
-  audioUrl    String?
-  submissions UserSubmission[]
+  options      String?
+  answer       String
+  explanation  String?
+  audioUrl     String?
+  submissions  UserSubmission[]
 }
 
 model WritingTask {
   id           String @id @default(cuid())
-  taskType     String
+  taskType     String  // task1/task2
   prompt       String
   bandScore    Float?
   sampleAnswer String?
 }
 
 model SpeakingTopic {
-  id         String @id @default(cuid())
-  part       Int
-  topic      String
-  questions  String?
+  id          String @id @default(cuid())
+  part        Int
+  topic       String
+  questions   String?
   modelAnswer String?
-  audioUrl   String?
+  audioUrl    String?
 }
 
 model UserSubmission {
-  id         String   @id @default(cuid())
-  userId     String
-  questionId String
-  userAnswer String?
-  isCorrect  Boolean?
-  timeSpent  Int?
+  id          String   @id @default(cuid())
+  userId      String
+  questionId  String
+  userAnswer  String?
+  isCorrect   Boolean?
+  timeSpent   Int?
   submittedAt DateTime @default(now())
+
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
@@ -132,8 +193,9 @@ model UserSubmission {
 model MockTest {
   id          String   @id @default(cuid())
   userId      String
-  scores      String
+  scores      String    // JSON: {listening, reading, writing, speaking}
   startedAt   DateTime @default(now())
   completedAt DateTime?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
