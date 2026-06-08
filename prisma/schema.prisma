@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  name              String?
+  email             String   @unique
+  emailVerified     DateTime?
+  image             String?
+  hashedPassword    String?
+  targetScore       Float?
+  examDate          DateTime?
+  streak            Int      @default(0)
+  totalStudyMinutes Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  accounts          Account[]
+  sessions          Session[]
+  vocabularyProgress UserVocabularyProgress[]
+  submissions       UserSubmission[]
+  mockTests         MockTest[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VocabularyWord {
+  id           String @id @default(cuid())
+  word         String
+  phonetic     String?
+  definition   String
+  examples     String?
+  collocations String?
+  synonyms     String?
+  topic        String
+  difficulty   String
+  progress UserVocabularyProgress[]
+}
+
+model UserVocabularyProgress {
+  id                String   @id @default(cuid())
+  userId            String
+  wordId            String
+  ease              Float    @default(2.5)
+  interval          Int      @default(0)
+  repetitions       Int      @default(0)
+  nextReviewAt      DateTime @default(now())
+  consecutiveCorrect Int     @default(0)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word VocabularyWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  @@unique([userId, wordId])
+}
+
+model GrammarPoint {
+  id          String @id @default(cuid())
+  name        String
+  category    String
+  explanation String
+  examples    String?
+}
+
+model Question {
+  id          String  @id @default(cuid())
+  type        String
+  section     Int?
+  passage     String?
+  questionText String
+  options     String?
+  answer      String
+  explanation String?
+  audioUrl    String?
+  submissions UserSubmission[]
+}
+
+model WritingTask {
+  id           String @id @default(cuid())
+  taskType     String
+  prompt       String
+  bandScore    Float?
+  sampleAnswer String?
+}
+
+model SpeakingTopic {
+  id         String @id @default(cuid())
+  part       Int
+  topic      String
+  questions  String?
+  modelAnswer String?
+  audioUrl   String?
+}
+
+model UserSubmission {
+  id         String   @id @default(cuid())
+  userId     String
+  questionId String
+  userAnswer String?
+  isCorrect  Boolean?
+  timeSpent  Int?
+  submittedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model MockTest {
+  id          String   @id @default(cuid())
+  userId      String
+  scores      String
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
