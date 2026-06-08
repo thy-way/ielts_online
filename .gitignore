@@ -43,3 +43,6 @@ next-env.d.ts
 # prisma
 /prisma/*.db
 /prisma/*.db-journal
+# sqlite
+prisma/dev.db
+prisma/dev.db-journal

@@ -3,11 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url = "file:./dev.db"
 }
 
-// ─── 用户 & 认证 ───
+// 鈹€鈹€鈹€ 鐢ㄦ埛 & 璁よ瘉 鈹€鈹€鈹€
 model User {
   id                String   @id @default(cuid())
   name              String?
@@ -55,7 +55,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// ─── 词汇核心 ───
+// 鈹€鈹€鈹€ 璇嶆眹鏍稿績 鈹€鈹€鈹€
 model VocabularyWord {
   id              String  @id @default(cuid())
   word            String
@@ -64,15 +64,15 @@ model VocabularyWord {
   definition      String
   definitionCn    String?
   exampleSentence String?
-  root            String?  // 词根
-  prefix          String?  // 前缀
-  suffix          String?  // 后缀
+  root            String?  // 璇嶆牴
+  prefix          String?  // 鍓嶇紑
+  suffix          String?  // 鍚庣紑
   collocations    String?  // JSON: ["collocation1","collocation2"]
   synonyms        String?  // JSON: ["syn1","syn2"]
   antonyms        String?  // JSON: ["ant1","ant2"]
   topic           String   @default("general")  // education/environment/technology/health/society...
   level           String   @default("core")      // foundation/core/advanced
-  wordFamily      String?  // 词族标识，如 "success"
+  wordFamily      String?  // 璇嶆棌鏍囪瘑锛屽 "success"
   createdAt       DateTime @default(now())
 
   progress UserVocabularyProgress[]
@@ -92,9 +92,9 @@ model UserVocabularyProgress {
   id                 String   @id @default(cuid())
   userId             String
   wordId             String
-  ease               Float    @default(2.5)    // SM-2 简易度因子
-  interval           Int      @default(0)      // 间隔天数
-  repetitions        Int      @default(0)      // 复习次数
+  ease               Float    @default(2.5)    // SM-2 绠€鏄撳害鍥犲瓙
+  interval           Int      @default(0)      // 闂撮殧澶╂暟
+  repetitions        Int      @default(0)      // 澶嶄範娆℃暟
   nextReviewAt       DateTime @default(now())
   consecutiveCorrect Int      @default(0)
   lastReviewAt       DateTime?
@@ -105,7 +105,7 @@ model UserVocabularyProgress {
   @@unique([userId, wordId])
 }
 
-// ─── 语法体系 ───
+// 鈹€鈹€鈹€ 璇硶浣撶郴 鈹€鈹€鈹€
 model GrammarCategory {
   id          String @id @default(cuid())
   name        String @unique
@@ -124,7 +124,7 @@ model GrammarPoint {
   explanation   String   // Markdown
   examples      String?  // JSON: [{sentence, analysis}]
   commonErrors  String?  // JSON: [{error, correction, note}]
-  ieltsUsage    String?  // 在 IELTS 中的应用场景
+  ieltsUsage    String?  // 鍦?IELTS 涓殑搴旂敤鍦烘櫙
   sortOrder     Int      @default(0)
   level         String   @default("core")  // foundation/core/advanced
 
@@ -137,8 +137,7 @@ model UserGrammarProgress {
   userId      String
   grammarId   String
   isCompleted Boolean  @default(false)
-  score       Float?         // 练习得分百分比
-  completedAt DateTime?
+  score       Float?         // 缁冧範寰楀垎鐧惧垎姣?  completedAt DateTime?
   createdAt   DateTime @default(now())
 
   user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -146,7 +145,7 @@ model UserGrammarProgress {
   @@unique([userId, grammarId])
 }
 
-// ─── 题库 ───
+// 鈹€鈹€鈹€ 棰樺簱 鈹€鈹€鈹€
 model Question {
   id           String  @id @default(cuid())
   type         String  // listening/reading/grammar
