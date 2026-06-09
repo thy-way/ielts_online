@@ -12,9 +12,9 @@ const quickActions = [
   { title: "词汇复习", desc: "间隔复习 · 今日待复习", href: "/vocabulary/learn", Icon: BookOpen, color: "bg-blue-50 text-blue-600" },
   { title: "听力练习", desc: "Section 2 填空训练", href: "#", Icon: Headphones, color: "bg-purple-50 text-purple-600" },
   { title: "阅读训练", desc: "Passages 1-3 分类练习", href: "/reading", Icon: FileText, color: "bg-amber-50 text-amber-600" },
-  { title: "写作练习", desc: "Task 2 议论文", href: "#", Icon: PenTool, color: "bg-rose-50 text-rose-600" },
-  { title: "口语练习", desc: "Part 2 话题卡片", href: "#", Icon: Mic, color: "bg-emerald-50 text-emerald-600" },
-  { title: "全科模考", desc: "2 小时完整模拟", href: "#", Icon: Target, color: "bg-slate-100 text-slate-600" },
+  { title: "写作训练", desc: "Task 1+2 练习+AI评分", href: "/writing", Icon: PenTool, color: "bg-rose-50 text-rose-600" },
+  { title: "口语训练", desc: "Parts 1-3 分类练习", href: "/speaking", Icon: Mic, color: "bg-emerald-50 text-emerald-600" },
+  { title: "全科模考", desc: "成绩录入与报告", href: "/mock-test", Icon: Target, color: "bg-slate-100 text-slate-600" },
 ];
 
 export default async function DashboardPage() {
@@ -205,3 +205,4 @@ export default async function DashboardPage() {
     </div>
   );
 }
+

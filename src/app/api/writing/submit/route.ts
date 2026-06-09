@@ -6,7 +6,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Essay too short" }, { status: 400 });
     const words = essay.trim().split(/\s+/).length;
     const chars = essay.length;
-    const sentences = essay.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    const sentences = essay.split(/[.!?]+/).filter((s: string) => s.trim().length > 0).length;
     const avgSentence = sentences > 0 ? Math.round(words / sentences) : 0;
     let band = 5.0;
     if (words >= 250) band = 6.0;

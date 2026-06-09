@@ -10,6 +10,8 @@ const links = [
   { href: "/grammar", label: "语法" },
   { href: "/listening", label: "听力" },
   { href: "/reading", label: "阅读" },
+  { href: "/speaking", label: "口语" },
+  { href: "/mock-test", label: "模考" },
 ];
 
 export function Navbar() {
@@ -47,3 +49,4 @@ export function Navbar() {
     </header>
   );
 }
+
