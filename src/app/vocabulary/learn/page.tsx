@@ -73,6 +73,11 @@ export default function LearnPage() {
       setIndex(index + 1);
     } else {
       setDone(true);
+      fetch("/api/user/study", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ minutes: Math.max(1, Math.round(words.length * 0.5)) }),
+      }).catch(() => {});
     }
   }
 

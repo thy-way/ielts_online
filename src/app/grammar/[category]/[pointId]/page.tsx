@@ -4,6 +4,7 @@ import { ArrowLeft, Lightbulb, AlertTriangle, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { MarkGrammarComplete } from "@/components/grammar/MarkGrammarComplete";
 import { prisma } from "@/lib/prisma";
 
 interface Props {
@@ -143,9 +144,12 @@ export default async function GrammarPointPage({ params }: Props) {
             <Target className="h-8 w-8 text-primary mb-3" />
             <h3 className="text-lg font-semibold">诊断练习</h3>
             <p className="mt-1 text-sm text-slate-500">做完练习即时判分，巩固所学知识</p>
-            <Link href={"/grammar/" + category + "/" + pointId + "/practice"} className="mt-4">
-              <Button>开始练习</Button>
-            </Link>
+            <div className="mt-4 flex flex-col items-center gap-3">
+              <Link href={"/grammar/" + category + "/" + pointId + "/practice"}>
+                <Button>开始练习</Button>
+              </Link>
+              <MarkGrammarComplete grammarId={point.id} />
+            </div>
           </CardContent>
         </Card>
 
