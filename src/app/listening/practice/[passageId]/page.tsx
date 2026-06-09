@@ -73,7 +73,7 @@ export default function PracticePage() {
   }
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-50"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
-  if (!passage) return <div className="min-h-screen flex items-center justify-center bg-slate-50"><p className="text-slate-500">???????</p></div>;
+  if (!passage) return <div className="min-h-screen flex items-center justify-center bg-slate-50"><p className="text-slate-500">日常对话???</p></div>;
 
   const total = passage.questions.length;
 
@@ -93,7 +93,7 @@ export default function PracticePage() {
             <h1 className="text-xl font-bold">{passage.title}</h1>
             <Badge>{passage.difficulty}</Badge>
           </div>
-          <p className="text-xs text-slate-400">???????????????????</p>
+          <p className="text-xs text-slate-400">日常对话日常对话日常对话日常对话???</p>
         </div>
 
         <AudioPlayer transcript={passage.transcript} />
@@ -137,7 +137,7 @@ export default function PracticePage() {
                     {result && (
                       <div className={"mt-2 p-2.5 rounded-lg text-xs " + (result.isCorrect ? "bg-green-50 text-green-700" : "bg-amber-50 text-amber-700")}>
                         {result.isCorrect ? "? ??" : "? ??"}
-                        {!result.isCorrect && result.correctAnswer && <span> ????: {result.correctAnswer}</span>}
+                        {!result.isCorrect && result.correctAnswer && <span> 日常对话: {result.correctAnswer}</span>}
                         {result.explanation && <p className="mt-1">{result.explanation}</p>}
                       </div>
                     )}
@@ -152,7 +152,7 @@ export default function PracticePage() {
           {!submitted ? (
             <Button onClick={handleSubmit} disabled={Object.keys(answers).length === 0 || submitting} size="lg">
               {submitting ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : null}
-              ????
+              日常对话
             </Button>
           ) : (
             <div className="text-center">

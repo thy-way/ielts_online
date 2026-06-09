@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface Props { params: Promise<{ section: string }> }
 
-const sectionNames = ["", "????", "????", "????", "????"];
+const sectionNames = ["", "日常对话", "日常独白", "学术对话", "学术演讲"];
 const diffColors: Record<string, string> = { easy: "bg-green-100 text-green-700", medium: "bg-amber-100 text-amber-700", hard: "bg-red-100 text-red-700" };
 
 export default async function SectionPage({ params }: Props) {
@@ -27,7 +27,7 @@ export default async function SectionPage({ params }: Props) {
       <header className="border-b bg-white">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
           <Link href="/listening" className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700">
-            <ArrowLeft className="h-4 w-4" /> ????
+            <ArrowLeft className="h-4 w-4" /> 日常对话
           </Link>
         </div>
       </header>
@@ -54,7 +54,7 @@ export default async function SectionPage({ params }: Props) {
             </Link>
           ))}
           {passages.length === 0 && (
-            <div className="py-16 text-center text-slate-400">??????</div>
+            <div className="py-16 text-center text-slate-400">日常对话??</div>
           )}
         </div>
       </main>

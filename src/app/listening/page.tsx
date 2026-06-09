@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const sectionInfo = [
-  { section: 1, label: "????", desc: "Section 1 ? ?????????/???", color: "bg-blue-50 border-blue-200", icon: "??" },
-  { section: 2, label: "????", desc: "Section 2 ? ?????????/??/???", color: "bg-green-50 border-green-200", icon: "??" },
-  { section: 3, label: "????", desc: "Section 3 ? ?????????/??/???", color: "bg-amber-50 border-amber-200", icon: "??" },
-  { section: 4, label: "????", desc: "Section 4 ? ?????????/???", color: "bg-purple-50 border-purple-200", icon: "??" },
+  { section: 1, label: "日常对话", desc: "Section 1 ? 日常对话日常对话?/???", color: "bg-blue-50 border-blue-200", icon: "??" },
+  { section: 2, label: "日常对话", desc: "Section 2 ? 日常对话日常对话?/??/???", color: "bg-green-50 border-green-200", icon: "??" },
+  { section: 3, label: "日常对话", desc: "Section 3 ? 日常对话日常对话?/??/???", color: "bg-amber-50 border-amber-200", icon: "??" },
+  { section: 4, label: "日常对话", desc: "Section 4 ? 日常对话日常对话?/???", color: "bg-purple-50 border-purple-200", icon: "??" },
 ];
 
 export default async function ListeningPage() {
@@ -35,9 +35,9 @@ export default async function ListeningPage() {
         <div className="mb-10">
           <div className="flex items-center gap-3">
             <Headphones className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">????</h1>
+            <h1 className="text-3xl font-bold">听力训练</h1>
           </div>
-          <p className="mt-2 text-slate-500">? IELTS Listening Sections 1-4 ?????????????</p>
+          <p className="mt-2 text-slate-500">? IELTS Listening Sections 1-4 日常对话日常对话日常对话?</p>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           {sectionInfo.map((s, i) => (
@@ -62,12 +62,12 @@ export default async function ListeningPage() {
           ))}
         </div>
         <div className="mt-10 rounded-lg border bg-white p-6">
-          <h2 className="font-semibold mb-4">IELTS ??????</h2>
+          <h2 className="font-semibold mb-4">IELTS 听力题型说明</h2>
           <div className="grid gap-3 sm:grid-cols-2 text-sm">
-            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">????/??/??????</span></div>
-            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">????????????</span></div>
-            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">????????????</span></div>
-            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">??????????</span></div>
+            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">日常对话/??/日常对话??</span></div>
+            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">日常对话日常对话日常对话</span></div>
+            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">日常对话日常对话日常对话</span></div>
+            <div className="flex items-start gap-2"><Badge className="shrink-0 mt-0.5">??</Badge><span className="text-slate-600">日常对话日常对话??</span></div>
           </div>
         </div>
       </main>
