@@ -158,9 +158,23 @@ model Question {
   audioUrl     String?
   listeningPassageId String?
   listeningPassage ListeningPassage? @relation(fields: [listeningPassageId], references: [id])
+  readingPassageId  String?
+  readingPassage    ReadingPassage? @relation(fields: [readingPassageId], references: [id])
   submissions  UserSubmission[]
 }
 
+
+
+model ReadingPassage {
+  id         String   @id @default(cuid())
+  title      String
+  passage    String
+  wordCount  Int      @default(0)
+  difficulty String   @default("medium")
+  sortOrder  Int      @default(0)
+  questions  Question[]
+  createdAt  DateTime @default(now())
+}
 
 model ListeningPassage {
   id         String   @id @default(cuid())

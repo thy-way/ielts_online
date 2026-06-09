@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "/dashboard", label: "仪表盘" },
-  { href: "/vocabulary", label: "词汇" },
+  { href: "/vocabulary", label: "璇嶆眹" },
   { href: "/grammar", label: "语法" },
+  { href: "/listening", label: "听力" },
+  { href: "/reading", label: "阅读" },
 ];
 
 export function Navbar() {
@@ -38,8 +40,8 @@ export function Navbar() {
           })}
         </nav>
         <div className="flex items-center gap-2">
-          <Link href="/login"><Button variant="ghost" size="sm" className="rounded-lg text-slate-600 hover:text-slate-900">登录</Button></Link>
-          <Link href="/register"><Button size="sm" className="rounded-lg shadow-sm">免费注册</Button></Link>
+          <Link href="/login"><Button variant="ghost" size="sm" className="rounded-lg text-slate-600 hover:text-slate-900">鐧诲綍</Button></Link>
+          <Link href="/register"><Button size="sm" className="rounded-lg shadow-sm">鍏嶈垂娉ㄥ唽</Button></Link>
         </div>
       </div>
     </header>
