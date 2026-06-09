@@ -10,7 +10,7 @@ export default function MockTestPage() {
   const [results, setResults] = useState<MockResult[]>([]); const [loading, setLoading] = useState(true);
   const [scores, setScores] = useState({ listening: 0, reading: 0, writing: 0, speaking: 0 });
   useEffect(() => {
-    fetch("/api/mock-test").then(r => r.json()).then(d => setResults(d)).catch(() => {}).finally(() => setLoading(false));
+    fetch("/api/mock-test").then(r => r.json()).then(d => setResults(Array.isArray(d) ? d : [])).catch(() => {}).finally(() => setLoading(false));
   }, []);
   async function handleSubmit() {
     const res = await fetch("/api/mock-test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(scores) });
